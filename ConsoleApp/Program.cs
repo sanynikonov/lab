@@ -1,10 +1,4 @@
-﻿using CompanyStructLib.Implementations;
-using CompanyStructLib.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CompanyStructLib.Models;
 
 namespace ConsoleApp
 {
