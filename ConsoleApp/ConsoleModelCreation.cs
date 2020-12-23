@@ -44,7 +44,7 @@ namespace ConsoleApp
             GetEmployeeInfo(Director);
         }
 
-        private string GetEmployeeInfo(Employee employee)
+        public string GetEmployeeInfo(Employee employee)
         {
             return $"{employee.Name} {employee.Position} {employee.Wage}";
         }

@@ -168,25 +168,25 @@ namespace ConsoleApp
         private void AddWorkerY()
         {
             Console.WriteLine("Add WorkerY!");
-            Console.WriteLine(model.WorkerY.Name + " " + model.WorkerY.Position + " " + model.WorkerY.Wage);
+            Console.WriteLine(model.GetEmployeeInfo(model.WorkerY));
         }
 
         private void AddWorkerX()
         {
             Console.WriteLine("Add WorkerX!");
-            Console.WriteLine(model.WorkerX.Name + " " + model.WorkerX.Position + " " + model.WorkerX.Wage);
+            Console.WriteLine(model.GetEmployeeInfo(model.WorkerX));
         }
 
         private void AddWorkerB()
         {
             Console.WriteLine("Add WorkerB!");
-            Console.WriteLine(model.WorkerB.Name + " " + model.WorkerB.Position + " " + model.WorkerB.Wage);
+            Console.WriteLine(model.GetEmployeeInfo(model.WorkerB));
         }
 
         private void AddWorkerA()
         {
             Console.WriteLine("Add WorkerA!");
-            Console.WriteLine(model.WorkerA.Name + " " + model.WorkerA.Position + " " + model.WorkerA.Wage);
+            Console.WriteLine(model.GetEmployeeInfo(model.WorkerA));
         }
 
         private void AddDeliveryManagerAndSubordinate()
@@ -194,7 +194,7 @@ namespace ConsoleApp
             Console.WriteLine("Add DeliveryManager and subordinate!");
             model.AddSubordinateForDeliveryManager(model.DeliveryManager, model.WorkerA);
             model.AddSubordinateForDeliveryManager(model.DeliveryManager, model.WorkerB);
-            Console.WriteLine(model.DeliveryManager.Name + " " + model.DeliveryManager.Position + " " + model.DeliveryManager.Wage);
+            Console.WriteLine(model.GetEmployeeInfo(model.SaleManager));
         }
 
         private void AddSaleManagerAndSubordinate()
@@ -202,7 +202,7 @@ namespace ConsoleApp
             Console.WriteLine("Add SaleManager and subordinate!");
             model.AddSubordinateForSaleManager(model.SaleManager, model.WorkerX);
             model.AddSubordinateForSaleManager(model.SaleManager, model.WorkerY);
-            Console.WriteLine(model.SaleManager.Name + " " + model.SaleManager.Position + " " + model.SaleManager.Wage);
+            Console.WriteLine(model.GetEmployeeInfo(model.SaleManager));
         }
 
         private void AddDirectorAndSubordinate()
@@ -211,7 +211,7 @@ namespace ConsoleApp
             model.AddSubordinateForDirector(model.Director, model.SaleManager);
             model.AddSubordinateForDirector(model.Director, model.DeliveryManager);
             model.Director.AcceptVisitor(visitor);
-            Console.WriteLine(model.Director.Name + " " + model.Director.Position + " " + model.Director.Wage);
+            Console.WriteLine(model.GetEmployeeInfo(model.Director));
         }
 
         private int GetIntAnswer()
