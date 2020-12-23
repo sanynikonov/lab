@@ -8,20 +8,13 @@ namespace ConsoleApp
     public class ConsoleCompany
     {
         private readonly Company company;
-        private readonly ConsoleModelCreation modelCreation;
-        private SaleManager saleManager;
-        private DeliveryManager deliveryManager;
-        private Director director;
-        private DeliveryWorker workerA;
-        private DeliveryWorker workerB;
-        private SaleWorker workerX;
-        private SaleWorker workerY;
+        private readonly ConsoleModelCreation model;
         private IVisitor visitor = new SubordinateVisitor();
 
         public ConsoleCompany(Company company, ConsoleModelCreation consoleModelCreation)
         {
             this.company = company;
-            modelCreation = consoleModelCreation;
+            model = consoleModelCreation;
         }
         
         private const string menu = "\n\t1     - Add director and subordinate!" +
@@ -114,25 +107,25 @@ namespace ConsoleApp
         {
             Console.WriteLine("Please wage need");
             int wage = GetIntAnswer();
-            modelCreation.GetEmployeeByWage(wage);
+            model.GetEmployeeByWage(wage);
         }
 
         private void GetBiggestWage()
         {
             Console.WriteLine("Get Big Wage");
-            modelCreation.GetBigWage();
+            model.GetBigWage();
         }
 
         private void GetSaleWorkers()
         {
             Console.WriteLine("Get Sale Workers");
-            modelCreation.GetSaleManager();
+            model.GetSaleManager();
         }
 
         private void GetDeliveryWorkers()
         {
             Console.WriteLine("Get Delivery Workers");
-            modelCreation.GetDeliveryManager();
+            model.GetDeliveryManager();
         }
 
         private void ChangeToPositionalHierarchyStrategy()
@@ -162,70 +155,63 @@ namespace ConsoleApp
         {
             Console.WriteLine("Add All Employee!");
             company.SetHierarchyStrategy(new PositionalHierarchyStrategy());
-            company.AddEmployee(workerA);
-            company.AddEmployee(workerB);
-            company.AddEmployee(saleManager);
-            company.AddEmployee(workerX);
-            company.AddEmployee(deliveryManager);
-            company.AddEmployee(workerY);
-            company.AddEmployee(director);
+            company.AddEmployee(model.WorkerA);
+            company.AddEmployee(model.WorkerB);
+            company.AddEmployee(model.SaleManager);
+            company.AddEmployee(model.WorkerX);
+            company.AddEmployee(model.DeliveryManager);
+            company.AddEmployee(model.WorkerY);
+            company.AddEmployee(model.Director);
             company.GetByWage(120);
         }
 
         private void AddWorkerY()
         {
             Console.WriteLine("Add WorkerY!");
-            workerY = modelCreation.AddWorkerY;
-            Console.WriteLine(workerY.Name + " " + workerY.Position + " " + workerY.Wage);
+            Console.WriteLine(model.WorkerY.Name + " " + model.WorkerY.Position + " " + model.WorkerY.Wage);
         }
 
         private void AddWorkerX()
         {
             Console.WriteLine("Add WorkerX!");
-            workerX = modelCreation.AddWorkerX;
-            Console.WriteLine(workerX.Name + " " + workerX.Position + " " + workerX.Wage);
+            Console.WriteLine(model.WorkerX.Name + " " + model.WorkerX.Position + " " + model.WorkerX.Wage);
         }
 
         private void AddWorkerB()
         {
             Console.WriteLine("Add WorkerB!");
-            workerB = modelCreation.AddWorkerB;
-            Console.WriteLine(workerB.Name + " " + workerB.Position + " " + workerB.Wage);
+            Console.WriteLine(model.WorkerB.Name + " " + model.WorkerB.Position + " " + model.WorkerB.Wage);
         }
 
         private void AddWorkerA()
         {
             Console.WriteLine("Add WorkerA!");
-            workerA = modelCreation.AddWorkerA;
-            Console.WriteLine(workerA.Name + " " + workerA.Position + " " + workerA.Wage);
+            Console.WriteLine(model.WorkerA.Name + " " + model.WorkerA.Position + " " + model.WorkerA.Wage);
         }
 
         private void AddDeliveryManagerAndSubordinate()
         {
             Console.WriteLine("Add DeliveryManager and subordinate!");
-            deliveryManager = modelCreation.AddDeliveryManager;
-            modelCreation.AddSubordinateForDeliveryManager(deliveryManager, workerA);
-            modelCreation.AddSubordinateForDeliveryManager(deliveryManager, workerB);
-            Console.WriteLine(deliveryManager.Name + " " + deliveryManager.Position + " " + deliveryManager.Wage);
+            model.AddSubordinateForDeliveryManager(model.DeliveryManager, model.WorkerA);
+            model.AddSubordinateForDeliveryManager(model.DeliveryManager, model.WorkerB);
+            Console.WriteLine(model.DeliveryManager.Name + " " + model.DeliveryManager.Position + " " + model.DeliveryManager.Wage);
         }
 
         private void AddSaleManagerAndSubordinate()
         {
             Console.WriteLine("Add SaleManager and subordinate!");
-            saleManager = modelCreation.AddSaleManager;
-            modelCreation.AddSubordinateForSaleManager(saleManager, workerX);
-            modelCreation.AddSubordinateForSaleManager(saleManager, workerY);
-            Console.WriteLine(saleManager.Name + " " + saleManager.Position + " " + saleManager.Wage);
+            model.AddSubordinateForSaleManager(model.SaleManager, model.WorkerX);
+            model.AddSubordinateForSaleManager(model.SaleManager, model.WorkerY);
+            Console.WriteLine(model.SaleManager.Name + " " + model.SaleManager.Position + " " + model.SaleManager.Wage);
         }
 
         private void AddDirectorAndSubordinate()
         {
             Console.WriteLine("Add director and subordinate!");
-            director = modelCreation.AddDirector;
-            modelCreation.AddSubordinateForDirector(director, saleManager);
-            modelCreation.AddSubordinateForDirector(director, deliveryManager);
-            director.AcceptVisitor(visitor);
-            Console.WriteLine(director.Name + " " + director.Position + " " + director.Wage);
+            model.AddSubordinateForDirector(model.Director, model.SaleManager);
+            model.AddSubordinateForDirector(model.Director, model.DeliveryManager);
+            model.Director.AcceptVisitor(visitor);
+            Console.WriteLine(model.Director.Name + " " + model.Director.Position + " " + model.Director.Wage);
         }
 
         private int GetIntAnswer()

@@ -5,13 +5,13 @@ namespace ConsoleApp
 {
     public class ConsoleModelCreation
     {
-        public Director AddDirector => new Director("Joe Johns", 50000);
-        public SaleManager AddSaleManager => new SaleManager("Stive Stivenson", 18000);
-        public DeliveryManager AddDeliveryManager => new DeliveryManager("Eshly Bims", 20000);
-        public DeliveryWorker AddWorkerA => new WorkerA("Mat Fil", 6000);
-        public DeliveryWorker AddWorkerB => new WorkerB("Erik Ovel", 5500);
-        public SaleWorker AddWorkerX => new WorkerX("Caroline Besty", 5500);
-        public SaleWorker AddWorkerY => new WorkerX("David Blum", 6600);
+        public Director Director => new Director("Joe Johns", 50000);
+        public SaleManager SaleManager => new SaleManager("Stive Stivenson", 18000);
+        public DeliveryManager DeliveryManager => new DeliveryManager("Eshly Bims", 20000);
+        public DeliveryWorker WorkerA => new WorkerA("Mat Fil", 6000);
+        public DeliveryWorker WorkerB => new WorkerB("Erik Ovel", 5500);
+        public SaleWorker WorkerX => new WorkerX("Caroline Besty", 5500);
+        public SaleWorker WorkerY => new WorkerX("David Blum", 6600);
 
         public void AddSubordinateForDirector(Director director, Manager manager)
         {
@@ -29,19 +29,19 @@ namespace ConsoleApp
 
         public void GetSaleManager()
         {
-            Console.WriteLine($"[{GetEmployeeInfo(AddSaleManager)}]");
-            Console.WriteLine($"[{GetEmployeeInfo(AddWorkerX)}, {GetEmployeeInfo(AddWorkerY)}]");
+            Console.WriteLine($"[{GetEmployeeInfo(SaleManager)}]");
+            Console.WriteLine($"[{GetEmployeeInfo(WorkerX)}, {GetEmployeeInfo(WorkerY)}]");
         }
 
         public void GetDeliveryManager()
         {
-            Console.WriteLine($"[{GetEmployeeInfo(AddDeliveryManager)}]");
-            Console.WriteLine($"[{GetEmployeeInfo(AddWorkerA)}, {GetEmployeeInfo(AddWorkerB)}]");
+            Console.WriteLine($"[{GetEmployeeInfo(DeliveryManager)}]");
+            Console.WriteLine($"[{GetEmployeeInfo(WorkerA)}, {GetEmployeeInfo(WorkerB)}]");
         }
 
         public void GetBigWage()
         {
-            GetEmployeeInfo(AddDirector);
+            GetEmployeeInfo(Director);
         }
 
         private string GetEmployeeInfo(Employee employee)
