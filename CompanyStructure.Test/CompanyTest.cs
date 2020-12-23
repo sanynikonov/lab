@@ -1,6 +1,6 @@
 using CompanyStructLib.Interfaces;
 using CompanyStructLib.Models;
-using CompanyStructLib.Tests.FakeImplementations;
+using CompanyStructure.Exceptions;
 using FluentAssertions;
 using Moq;
 using System;
@@ -23,7 +23,7 @@ namespace CompanyStructLib.Tests
         {
             var company = new Company();
             Action act = () => company.AddEmployee(null);
-            act.Should().Throw<ArgumentNullException>();
+            act.Should().Throw<InvalidEmployeeException>();
         }
 
         [Fact]
@@ -49,12 +49,12 @@ namespace CompanyStructLib.Tests
 
             Action act = () => company.AddEmployees(employees);
 
-            act.Should().Throw<Exception>()
-                        .WithInnerException<ArgumentNullException>();
+            act.Should().Throw<InvalidEmployeeException>()
+                        .WithInnerException<InvalidEmployeeException>();
         }
 
         [Fact]
-        public void AddEmployees_ListWithNull_ThrowsExceptionWithInnerException()
+        public void AddEmployees_EmployeeExistsAlready_ThrowsExceptionWithInnerException()
         {
             var company = new Company();
             var employee = new WorkerA("Joni", 3000);
@@ -66,8 +66,8 @@ namespace CompanyStructLib.Tests
 
             Action act = () => company.AddEmployees(employees);
 
-            act.Should().Throw<Exception>()
-                        .WithInnerException<Exception>();
+            act.Should().Throw<InvalidEmployeeException>()
+                        .WithInnerException<InvalidEmployeeException>();
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace CompanyStructLib.Tests
         {
             var company = new Company();
             Action act = () => company.SetHierarchyStrategy(null);
-            act.Should().Throw<Exception>();
+            act.Should().Throw<InvalidHierarchyStrategyException>();
         }
 
         [Fact]
@@ -83,7 +83,7 @@ namespace CompanyStructLib.Tests
         {
             var company = new Company();
             Action act = () => company.GetStructure();
-            act.Should().Throw<Exception>();
+            act.Should().Throw<InvalidHierarchyStrategyException>();
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace CompanyStructLib.Tests
             var emp = new WorkerA("John", 4000);
             company.AddEmployee(emp);
             Action act = () => company.GetByWage(wage);
-            act.Should().Throw<ArgumentException>();
+            act.Should().Throw<NonPositiveWageException>();
         }
 
         [Fact]
@@ -152,7 +152,7 @@ namespace CompanyStructLib.Tests
         }
 
         [Fact]
-        public void GetHighestWage_NoEmployees_Zero()
+        public void GetHighestWage_NoEmployees_ReturnsZero()
         {
             var company = new Company();
 
@@ -179,10 +179,12 @@ namespace CompanyStructLib.Tests
         }
 
         [Fact]
-        public void GetByPosition_NoEmployees_EmptyList()
+        public void GetByPosition_NoEmployees_ReturnsEmptyList()
         {
             var company = new Company();
-            var actual = company.GetByPosition(Position.DeliveryManager);
+            
+            var actual = company.GetEmployeesByPosition(Position.DeliveryManager);
+
             actual.Should().HaveCount(0);
         }
 
@@ -198,7 +200,7 @@ namespace CompanyStructLib.Tests
             };
             company.AddEmployees(employees);
 
-            var actual = company.GetByPosition(Position.DeliveryManager);
+            var actual = company.GetEmployeesByPosition(Position.DeliveryManager);
 
             actual.Should().HaveCount(2)
                 .And.Contain(emp => emp.Position == Position.DeliveryManager);

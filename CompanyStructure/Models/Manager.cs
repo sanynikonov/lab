@@ -1,4 +1,6 @@
-﻿namespace CompanyStructLib.Models
+﻿using System.Collections.Generic;
+
+namespace CompanyStructLib.Models
 {
     public abstract class Manager : Employee
     {

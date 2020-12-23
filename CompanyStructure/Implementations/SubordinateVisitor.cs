@@ -7,43 +7,51 @@ namespace CompanyStructLib.Implementations
 {
     public class SubordinateVisitor : IVisitor
     {
-        private List<Employee> _subordinates = new List<Employee>();
+        public List<Employee> Subordinates { get; private set; } = new List<Employee>();
 
-        public List<Employee> Get() => _subordinates;
-        
         public void Visit(Director director, IEnumerable<Employee> subordinates)
         {
-            _subordinates = subordinates.ToList();
+            GetSubordinates(subordinates);
         }
 
         public void Visit(SaleManager saleManager, IEnumerable<Employee> subordinates)
         {
-            _subordinates = subordinates.ToList();
+            GetSubordinates(subordinates);
         }
 
         public void Visit(DeliveryManager deliveryManager, IEnumerable<Employee> subordinates)
         {
-            _subordinates = subordinates.ToList();
+            GetSubordinates(subordinates);
         }
 
         public void Visit(WorkerA workerA)
         {
-            _subordinates.Clear();
+            ClearSubordinates();
         }
 
         public void Visit(WorkerB workerB)
         {
-            _subordinates.Clear();
+            ClearSubordinates();
         }
 
         public void Visit(WorkerX workerX)
         {
-            _subordinates.Clear();
+            ClearSubordinates();
         }
 
         public void Visit(WorkerY workerY)
         {
-            _subordinates.Clear();
+            ClearSubordinates();
+        }
+
+        private void ClearSubordinates()
+        {
+            Subordinates.Clear();
+        }
+
+        private void GetSubordinates(IEnumerable<Employee> subordinates)
+        {
+            Subordinates = subordinates.ToList();
         }
     }
 }

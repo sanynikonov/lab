@@ -14,25 +14,32 @@ namespace CompanyStructLib.Tests
         [Fact]
         public void GetHierarchy_Employyes_OrderedListByPosition()
         {
+            //Arrange
             var strategy = new PositionalHierarchyStrategy();
 
-            var d = new Director("Director", 20000);
-            var wy = new WorkerY("WorkerY", 5500);
-            var sm = new SaleManager("SaleManager", 10400);
-            var dm = new DeliveryManager("DeliveryManager", 10400);
+            var director = new Director("Director", 20000);
+            var workerY = new WorkerY("WorkerY", 5500);
+            var saleManager = new SaleManager("SaleManager", 10400);
+            var deliveryManager = new DeliveryManager("DeliveryManager", 10400);
 
+            var expectedPositionsOrder = new[]
+            {
+                Position.Director,
+                Position.SaleManager,
+                Position.SaleWorkerY,
+                Position.DeliveryManager
+            };
 
-            d.AddSubordinate(sm);
-            d.AddSubordinate(dm);
-            sm.AddSubordinate(wy);
+            director.AddSubordinate(saleManager);
+            director.AddSubordinate(deliveryManager);
+            saleManager.AddSubordinate(workerY);
 
-            var employees = new List<Employee> { d, wy, sm };
+            var employees = new List<Employee> { director, workerY, saleManager };
 
-            var actual = strategy.GetHierarchy(employees).ToList();
-            actual[0].Position.Should().Be(Position.Director);
-            actual[1].Position.Should().Be(Position.SaleManager);
-            actual[2].Position.Should().Be(Position.SaleWorkerY);
-            actual[3].Position.Should().Be(Position.DeliveryManager);
-        }
+            //Act
+            var actual = strategy.GetHierarchy(employees).Select(e => e.Position);
+
+            //Assert
+            Assert.Equal(expectedPositionsOrder, actual);}
     }
 }

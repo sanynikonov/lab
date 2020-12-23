@@ -1,6 +1,7 @@
 ﻿using CompanyStructLib.Interfaces;
 using System;
 using System.Collections.Generic;
+using CompanyStructure.Exceptions;
 
 namespace CompanyStructLib.Models
 {
@@ -17,28 +18,28 @@ namespace CompanyStructLib.Models
 
     public abstract class Employee
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; protected set; }
 
-        public string Name { get; private set; }
+        public string Name { get; protected set; }
 
-        public double Wage { get; private set; }
+        public double Wage { get; protected set; }
 
-        public Position Position { get; set; }
+        public Position Position { get; protected set; }
 
         public Employee(string name, double wage)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("Parameter 'name' cannot be null or blank.");
+                throw new InvalidNameException("Parameter 'name' cannot be null or blank.");
 
             if (wage < 0)
-                throw new ArgumentException($"Parameter 'wage' cannot be less than zero.\nYour input: {wage}");
+                throw new NonPositiveWageException($"Parameter 'wage' cannot be less than zero.\nYour input: {wage}");
 
             Id = Guid.NewGuid();
             Name = name;
             Wage = wage;
         }
 
-        public virtual List<Employee> GetSubordinates()
+        public virtual IEnumerable<Employee> GetSubordinates()
         {
             return new List<Employee> { this };
         }

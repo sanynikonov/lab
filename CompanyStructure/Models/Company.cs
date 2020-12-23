@@ -1,4 +1,5 @@
 ﻿using CompanyStructLib.Interfaces;
+using CompanyStructure.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,10 @@ namespace CompanyStructLib.Models
         public void AddEmployee(Employee employee)
         {
             if (employee is null)
-                throw new ArgumentNullException("Value cannot be null");
+                throw new InvalidEmployeeException("Value cannot be null");
 
             if (!_employees.Add(employee))
-                throw new Exception("An employee is already added to this company");
+                throw new InvalidEmployeeException("An employee is already added to this company");
         }
 
         public void AddEmployees(IEnumerable<Employee> employees)
@@ -31,17 +32,17 @@ namespace CompanyStructLib.Models
                 foreach (var emp in employees)
                     AddEmployee(emp);
             }
-            catch(Exception ex)
+            catch (InvalidEmployeeException ex)
             {
                 _employees.Clear();
-                throw new Exception("There is incorect data in the list", ex);
+                throw new InvalidEmployeeException("There is incorect data in the list", ex);
             }
         }
 
         public void SetHierarchyStrategy(IHierarchyStrategy strategy)
         {
             if (strategy is null)
-                throw new ArgumentNullException("Parameter cannot be null value.");
+                throw new InvalidHierarchyStrategyException("Parameter cannot be null value.");
 
             _hierarchyStrategy = strategy;
         }
@@ -49,7 +50,7 @@ namespace CompanyStructLib.Models
         public IEnumerable<Employee> GetByWage(double wage)
         {
             if (wage <= 0)
-                throw new ArgumentException("Parameter 'wage' cannot be less or equal to zero");
+                throw new NonPositiveWageException("Parameter 'wage' cannot be less or equal to zero");
 
             return _employees.Where(emp => emp.Wage >= wage);
         }
@@ -62,7 +63,7 @@ namespace CompanyStructLib.Models
             return _employees.Max(emp => emp.Wage);
         }
 
-        public IEnumerable<Employee> GetByPosition(Position position)
+        public IEnumerable<Employee> GetEmployeesByPosition(Position position)
         {
             return _employees.Where(emp => emp.Position == position);
         }
@@ -70,7 +71,7 @@ namespace CompanyStructLib.Models
         public IEnumerable<Employee> GetStructure()
         {
             if (_hierarchyStrategy is null)
-                throw new NullReferenceException("Field '_hierarchyStrategy' cannot be null");
+                throw new InvalidHierarchyStrategyException("Field '_hierarchyStrategy' cannot be null");
 
             return _hierarchyStrategy.GetHierarchy(_employees);
         }

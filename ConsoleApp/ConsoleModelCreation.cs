@@ -33,27 +33,33 @@ namespace ConsoleApp
 
         public void GetSaleManager()
         {
-            Console.WriteLine("[Stive Stivenson SaleManager 18000]");
-            Console.WriteLine("[Caroline Besty SaleWorkerX 5500, David Blum SaleWorkerX 6600]");
-
+            Console.WriteLine($"[{GetEmployeeInfo(AddSaleManager)}]");
+            Console.WriteLine($"[{GetEmployeeInfo(AddWorkerX)}, {GetEmployeeInfo(AddWorkerY)}]");
         }
 
         public void GetDeliveryManager()
         {
-            Console.WriteLine("[Eshly Bims DeliveryManager 20000]");
-            Console.WriteLine("[Mat Fil DeliveryWorkerA 6000, Erik Ovel DeliveryWorkerB 5500]");
+            Console.WriteLine($"[{GetEmployeeInfo(AddDeliveryManager)}]");
+            Console.WriteLine($"[{GetEmployeeInfo(AddWorkerA)}, {GetEmployeeInfo(AddWorkerB)}]");
         }
 
         public void GetBigWage()
         {
-            Console.WriteLine("[Joe Johns Director 50000]");
+            GetEmployeeInfo(AddDirector);
+        }
+
+        private string GetEmployeeInfo(Employee employee)
+        {
+            return $"{employee.Name} {employee.Position} {employee.Wage}";
         }
 
         public void GetEmployeeByWage(int wage)
         {
-            if (wage == 10000) {
+            if (wage == 10000)
+            {
                 Console.WriteLine("[Joe Johns Director 50000, Eshly Bims DeliveryManager 20000, Stive Stivenson SaleManager 18000]");
-            } else
+            }
+            else
             {
                 Console.WriteLine("[Caroline Besty SaleWorkerX 5500, David Blum SaleWorkerX 6600, " +
                     "Mat Fil DeliveryWorkerA 6000, Erik Ovel DeliveryWorkerB 5500, " +

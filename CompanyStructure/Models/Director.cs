@@ -27,15 +27,10 @@ namespace CompanyStructLib.Models
                 _managers.Add(manager);
         }
 
-        public override List<Employee> GetSubordinates()
+        public override IEnumerable<Employee> GetSubordinates()
         {
-            var res = new List<Employee>();
-            res.Add(this);
-            foreach(var mng in _managers)
-            {
-                res.AddRange(mng.GetSubordinates());
-            }
-            return res;
+            return base.GetSubordinates().Concat(
+                _managers.SelectMany(x => x.GetSubordinates()));
         }
     }
 }
