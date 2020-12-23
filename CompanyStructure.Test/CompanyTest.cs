@@ -11,35 +11,35 @@ namespace CompanyStructLib.Tests
 {
     public class CompanyTest
     {
-        [Fact]
-        public void Initializing_NotNull()
+        private readonly Company company;
+
+        public CompanyTest()
         {
-            var company = new Company();
-            company.Should().NotBeNull();
+            company = new Company();
         }
 
         [Fact]
         public void AddEmployee_Null_ThrowsArgNullException()
         {
-            var company = new Company();
             Action act = () => company.AddEmployee(null);
+            
             act.Should().Throw<InvalidEmployeeException>();
         }
 
         [Fact]
         public void AddEmployee_SameInstanceTwice_ThrowsException()
         {
-            var company = new Company();
             var emp = new WorkerA("John", 4000);
             company.AddEmployee(emp);
+            
             Action act = () => company.AddEmployee(emp);
+            
             act.Should().Throw<Exception>();
         }
 
         [Fact]
         public void AddEmployees_ListWithNull_ThrowsExceptionWithInnerNull()
         {
-            var company = new Company();
             var employees = new List<Employee>
             {
                 new WorkerA("John", 4000),
@@ -56,7 +56,6 @@ namespace CompanyStructLib.Tests
         [Fact]
         public void AddEmployees_EmployeeExistsAlready_ThrowsExceptionWithInnerException()
         {
-            var company = new Company();
             var employee = new WorkerA("Joni", 3000);
             var employees = new List<Employee>
             {
@@ -73,16 +72,16 @@ namespace CompanyStructLib.Tests
         [Fact]
         public void SetHierarchyStrategy_Null_ThrowsArgNullException()
         {
-            var company = new Company();
             Action act = () => company.SetHierarchyStrategy(null);
+            
             act.Should().Throw<InvalidHierarchyStrategyException>();
         }
 
         [Fact]
         public void GetStructure_StrategyIsNotSet_ThrowsNullRefException()
         {
-            var company = new Company();
             Action act = () => company.GetStructure();
+            
             act.Should().Throw<InvalidHierarchyStrategyException>();
         }
 
@@ -90,7 +89,6 @@ namespace CompanyStructLib.Tests
         public void GetStructure_FakeStrategyNullEmployees_ReturnsEmptyList()
         {
             IEnumerable<Employee> employees = new List<Employee>();
-            var company = new Company();
             var mock = new Mock<IHierarchyStrategy>();
             mock.Setup(_ => _.GetHierarchy(employees)).Returns(employees);
 
@@ -105,17 +103,17 @@ namespace CompanyStructLib.Tests
         [InlineData(-0.0001)]
         public void GetByWage_IncorectParameter_ThrowsArgException(double wage)
         {
-            var company = new Company();
             var emp = new WorkerA("John", 4000);
             company.AddEmployee(emp);
+            
             Action act = () => company.GetByWage(wage);
+            
             act.Should().Throw<NonPositiveWageException>();
         }
 
         [Fact]
         public void GetByWage_LessThanMinimumWage_ReturnAllEmps()
         {
-            var company = new Company();
             var expected = new List<Employee>
             {
                 new WorkerA("John", 4000),
@@ -134,7 +132,6 @@ namespace CompanyStructLib.Tests
         [Fact]
         public void GetByWage_BitGreaterThanMinimum_AllExceptOne()
         {
-            var company = new Company();
             var employees = new List<Employee>
             {
                 new WorkerA("John", 4000),
@@ -154,8 +151,6 @@ namespace CompanyStructLib.Tests
         [Fact]
         public void GetHighestWage_NoEmployees_ReturnsZero()
         {
-            var company = new Company();
-
             var actual = company.GetHighestWage();
 
             actual.Should().Be(0);
@@ -164,7 +159,6 @@ namespace CompanyStructLib.Tests
         [Fact]
         public void GetHighestWage_ReturnsRighValue()
         {
-            var company = new Company();
             var expected = 6000;
             var employees = new List<Employee>
             {
@@ -173,6 +167,7 @@ namespace CompanyStructLib.Tests
                 new WorkerA("John", expected)
             };
             company.AddEmployees(employees);
+            
             var actual = company.GetHighestWage();
 
             actual.Should().Be(expected);
@@ -181,8 +176,6 @@ namespace CompanyStructLib.Tests
         [Fact]
         public void GetByPosition_NoEmployees_ReturnsEmptyList()
         {
-            var company = new Company();
-            
             var actual = company.GetEmployeesByPosition(Position.DeliveryManager);
 
             actual.Should().HaveCount(0);
@@ -191,7 +184,6 @@ namespace CompanyStructLib.Tests
         [Fact]
         public void GetByPosition_DeliveryManager_TwoElements()
         {
-            var company = new Company();
             var employees = new List<Employee>
             {
                 new DeliveryManager("John", 4000),
